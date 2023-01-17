@@ -1,0 +1,17 @@
+FROM centos
+
+RUN yum install -y openssh-server
+
+RUN useradd remoteuser &&\
+        echo remoteuser:1 |chpasswd && \
+        mkdir /home/remoteuser/.ssh && \
+        chmod 700 /home/remoteuser/.ssh
+
+COPY remote.key.pub /home/remoteuser/.ssh/authorized_keys
+
+RUN chown remoteuser:remoteuser -R /home/remoteuser/.ssh $$ \
+        chmod 600 /home/remoteuser/.ssh/authorized_keys
+
+RUN /usr/sbin/sshd-keygen
+
+CMD /usr/sbin/sshd -D
