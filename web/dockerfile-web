@@ -1,4 +1,4 @@
-FROM rockylinux/rockylinux
+FROM centos:7
 
 MAINTAINER devopsdjengo@gmail.com 
 RUN yum install -y httpd \
@@ -11,9 +11,9 @@ WORKDIR /var/www/html
 
 RUN unzip cycle.zip
 
-RUN CP -rvf cycle/* .
+RUN cp -rvf html/* .
 
-RUN rm -rf cycle.zip cycle 
+RUN rm -rf cycle.zip html
 
 CMD ["/usr/bin/httpd", "-D", "FOREGROUND"]
 
